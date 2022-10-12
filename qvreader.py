@@ -53,7 +53,7 @@ class qvreader:
         return len(self.lines)
 
     #******************************************
-    #get list of times
+    #get list of items
     def list(self, item="", name="", debug=False):
 
         self.__check__()
@@ -62,10 +62,13 @@ class qvreader:
         #search for item
         results = []
         if debug:
-            print("searching for \"%s\" named \"%s\"..."%(item, name))
+            if item!="" or name != "":
+                print("searching for \"%s\" named \"%s\"..."%(item, name))
+            else:
+                print("searching...")
         for i, line in enumerate(self.lines):
             if ( (item+":" in line and name+"(ID:" in line) or #e.g.: "Plane: sensor-plane(ID:113, From 100 Pts.)"
-                 (item+":" in line and name in line and line.count(":")==1) ): #e.g.: "Ebene: plane"
+                 (item+":" in line and name+"\n" in line and line.count(":")==1) ): #e.g.: "Ebene: plane"
                 results.append(line.rstrip().lstrip())
         return results
         
